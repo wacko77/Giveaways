@@ -42,7 +42,7 @@ public class GiveawayCreation implements CommandExecutor {
 
                 return true;
 
-            } /*else if(args[0].equalsIgnoreCase("create") && player.hasPermission("giveaways.duration")) {
+            } else if(args[0].equalsIgnoreCase("create") && player.hasPermission("giveaways.duration")) {
 
                 player.sendMessage("Usage: /giveaway create <durationInSeconds>");
                 ItemStack prize = player.getInventory().getItemInMainHand();
@@ -53,7 +53,7 @@ public class GiveawayCreation implements CommandExecutor {
                 gm.createGiveaway(player, prize, endTime);
 
                 return true;
-            }*/
+            }
         }
 
         return true;
