@@ -1,0 +1,29 @@
+name: Giveaways
+version: '${project.version}'
+main: me.wacko.giveaways.Giveaways
+api-version: '1.20'
+depend: [PlaceholderAPI]
+
+commands:
+  giveaways:
+    description: opens a gui of the current giveaways
+  giveaway:
+    description: set of subcommands for giveaway creation
+
+permissions:
+  giveaways.command:
+    description: allows the opening of the giveaway gui
+  giveaways.start:
+    description: allows a player to start a giveaway
+  giveaways.admin:
+    description: adds all admin commands
+  giveaways.duration:
+    description: allows a duration to be set
+  giveaways.*:
+    description: all giveaways permissions
+    default: false
+    children:
+      giveaways.command: true
+      giveaways.start: true
+      giveaways.admin: true
+      giveaways.setduration: true
