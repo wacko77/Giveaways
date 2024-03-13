@@ -1,6 +1,7 @@
 package me.wacko.giveaways.model;
 
 import me.wacko.giveaways.Giveaways;
+import me.wacko.giveaways.util.GiveawaysStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,33 +20,31 @@ public class GiveawayManager {
 
     public void createGiveaway(Player host, ItemStack prize, long duration) {
         Giveaway giveaway = new Giveaway(prize, nextId++, host, duration);
-        plugin.getActiveGiveaways().add(giveaway);
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> end(giveaway), duration * 20);
-        // save to flat file
-    }
+        giveaway.start();
 
-    public void createGiveawayNoDur(Player host, ItemStack prize) {
-        Giveaway giveaway = new Giveaway(prize, nextId++, host);
-        plugin.getActiveGiveaways().add(giveaway);
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> end(giveaway), duration * 20);
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> end(giveaway), 20 * 60);
-
-        // save to flat file
+        GiveawaysStorage.addGiveaway(giveaway);
     }
 
     public Player chooseWinner(Giveaway giveaway) {
         List<Player> participants = giveaway.getParticipants();
-        if(participants.isEmpty()){
-            Player host = giveaway.getHost();
-            host.getInventory().addItem(giveaway.getPrize());
-        }
         Random rand = new Random();
         int index = rand.nextInt(participants.size());
         return participants.get(index);
     }
 
     public void end(Giveaway giveaway) {
+        if(giveaway.getParticipants().isEmpty()) {
+            Player host = giveaway.getHost();
+            host.getInventory().addItem(giveaway.getPrize());
+            giveaway.getHost().sendMessage("No one entered your giveaway!");
+
+            GiveawaysStorage.removeGiveaway(giveaway);
+
+            return;
+        }
         Player winner = chooseWinner(giveaway);
         if(winner != null){
             winner.sendMessage("You have won a giveaway containing: " + giveaway.getPrize().getType());

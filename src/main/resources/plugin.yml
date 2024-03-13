@@ -25,5 +25,4 @@ permissions:
     children:
       giveaways.command: true
       giveaways.start: true
-      giveaways.admin: true
-      giveaways.setduration: true
+      giveaways.duration: true

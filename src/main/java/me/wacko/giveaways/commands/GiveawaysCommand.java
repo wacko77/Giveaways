@@ -2,6 +2,7 @@ package me.wacko.giveaways.commands;
 
 import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.gui.GiveawaysGUI;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,12 +22,14 @@ public class GiveawaysCommand implements CommandExecutor {
             sender.sendMessage("Command can only be run by players!");
         }
 
-        Player p = (Player) sender;
+        Player player = (Player) sender;
 
-
-        GiveawaysGUI giveawaysGUI = new GiveawaysGUI(plugin);
-        giveawaysGUI.open(p);
-
+        if (player.hasPermission("giveaways.command")) {
+            GiveawaysGUI giveawaysGUI = new GiveawaysGUI(plugin);
+            giveawaysGUI.open(player);
+        } else {
+            player.sendMessage(String.format("%s%sYou do not have permission to do that!", ChatColor.DARK_RED,  ChatColor.BOLD));
+        }
 
         return true;
     }

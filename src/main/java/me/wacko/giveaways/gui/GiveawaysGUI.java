@@ -3,8 +3,10 @@ package me.wacko.giveaways.gui;
 import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.model.Giveaway;
 import me.wacko.giveaways.util.ItemStackUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -21,11 +23,11 @@ public class GiveawaysGUI extends AbstractGUI {
         List<Giveaway> activeGiveaways = plugin.getActiveGiveaways();
 
         for (Giveaway giveaway : activeGiveaways) {
-            ItemStack prize = createItem(giveaway);
+            ItemStack prize = createItem(giveaway, plugin);
             setItem(slotIndex, prize, player ->{
                 if (player != giveaway.getHost()) {
                     giveaway.addParticipant(player);
-                    open(player);
+                    // todo: open giveawaysGUI when they click to participate in the giveaway
                 } else {
                     player.sendMessage("Can't do that!");
                 }
@@ -39,14 +41,14 @@ public class GiveawaysGUI extends AbstractGUI {
         }
     }
 
-    private ItemStack createItem(Giveaway giveaway){
-        List<String> lore = getLore(giveaway);
+    private ItemStack createItem(Giveaway giveaway, Giveaways plugin){
+        List<String> lore = getLore(giveaway, plugin);
         ItemStack prize = ItemStackUtil.getItem(giveaway.getPrize().getType().toString(), giveaway.getPrize().getType(), 1, lore);
 
         return prize;
     }
 
-    private static List<String> getLore(Giveaway giveaway){
+    private static List<String> getLore(Giveaway giveaway, Giveaways plugin){
         List<String> lore = new ArrayList<>();
 
         List<Player> participants = giveaway.getParticipants();
@@ -57,25 +59,10 @@ public class GiveawaysGUI extends AbstractGUI {
             lore.add("# of participants: 0");
         }
 
-        long remainingTimeMillis = giveaway.getDuration() - System.currentTimeMillis();
-        String remainingTimeFormatted = formatDuration(remainingTimeMillis);
-        lore.add("Ends in: " + remainingTimeFormatted);
+        //long duration = giveaway.getDuration();
+        //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> lore.add("Ends in: " + duration), 0L, 20L);
 
         return lore;
-    }
-
-    private static String formatDuration(long millis) {
-        if (millis < 0) {
-            return "Expired";
-        }
-        long days = TimeUnit.MILLISECONDS.toDays(millis);
-        millis -= TimeUnit.DAYS.toMillis(days);
-        long hours = TimeUnit.MILLISECONDS.toHours(millis);
-        millis -= TimeUnit.HOURS.toMillis(hours);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
-        millis -= TimeUnit.MINUTES.toMillis(minutes);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
-        return String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
     }
 
 }

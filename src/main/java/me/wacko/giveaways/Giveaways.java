@@ -17,19 +17,16 @@ public final class Giveaways extends JavaPlugin {
 
     private static Giveaways plugin;
     private final GiveawayManager gm = new GiveawayManager(this);
-    private List<Giveaway> activeGiveaways = new ArrayList<>();
+    private List<Giveaway> activeGiveaways;
     @Override
     public void onEnable() {
 
         plugin = this;
 
+        GiveawaysStorage.loadGiveaways();
+
         getConfig().options().copyDefaults();
         saveDefaultConfig();
-
-        GiveawaysStorage.setup();
-        GiveawaysStorage.get().addDefault("Giveaways", "");
-        GiveawaysStorage.get().options().copyDefaults(true);
-        GiveawaysStorage.save();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) { //
             new GiveawaysExpansion(this).register(); //
