@@ -10,19 +10,21 @@ import me.wacko.giveaways.storage.FlatFile;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Giveaways extends JavaPlugin {
 
-    private static Giveaways plugin;
-    private final GiveawayManager gm = new GiveawayManager(this);
-    private List<Giveaway> activeGiveaways;
+    private FlatFile file;
+    private List<Giveaway> activeGiveaways = new ArrayList<>();
+    GiveawayManager gm = new GiveawayManager(this, activeGiveaways);
+
     @Override
     public void onEnable() {
 
-        plugin = this;
+        file = new FlatFile(this);
 
-        FlatFile.loadGiveaways();
+        activeGiveaways = file.loadGiveaways();
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
@@ -39,9 +41,12 @@ public final class Giveaways extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        file.saveGiveaways(activeGiveaways);
+
+        System.out.print("Disabling Giveaways!");
     }
 
     public List<Giveaway> getActiveGiveaways() {return activeGiveaways;}
+    public FlatFile getFlatFile() {return file;}
 
 }

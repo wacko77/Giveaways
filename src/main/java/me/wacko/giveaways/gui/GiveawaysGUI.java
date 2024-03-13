@@ -4,6 +4,8 @@ import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.model.Giveaway;
 import me.wacko.giveaways.util.ItemStackUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,22 +24,26 @@ public class GiveawaysGUI extends AbstractGUI {
 
         List<Giveaway> activeGiveaways = plugin.getActiveGiveaways();
 
-        for (Giveaway giveaway : activeGiveaways) {
-            ItemStack prize = createItem(giveaway, plugin);
-            setItem(slotIndex, prize, player ->{
-                if (player != giveaway.getHost()) {
-                    giveaway.addParticipant(player);
-                    // todo: open giveawaysGUI when they click to participate in the giveaway
-                } else {
-                    player.sendMessage("Can't do that!");
+        if (activeGiveaways != null) {
+            for (Giveaway giveaway : activeGiveaways) {
+                ItemStack prize = createItem(giveaway, plugin);
+                setItem(slotIndex, prize, player -> {
+                    if (player != giveaway.getHost()) {
+                        giveaway.addParticipant(player);
+                        // todo: open giveawaysGUI when they click to participate in the giveaway
+                    } else {
+                        player.sendMessage("Can't do that!");
+                    }
+                });
+
+                if (slotIndex >= getInventory().getSize()) {
+                    break;
                 }
-            });
-
-            slotIndex++;
-
-            if (slotIndex >= getInventory().getSize()) {
-                break;
             }
+            slotIndex++;
+        } else {
+            ItemStack item = ItemStackUtil.getItem(ChatColor.GREEN + "No Active Giveaways!", Material.BEDROCK, 1, Collections.singletonList(ChatColor.GRAY + "Type /giveaway create to make a giveaway!"));
+            setItem(1, item);
         }
     }
 

@@ -1,62 +1,81 @@
 package me.wacko.giveaways.storage;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.model.Giveaway;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FlatFile {
+    private final Giveaways plugin;
+    private final File file;
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String FILE_PATH = "plugins/Giveaways/giveaways.json";
-
-    // Load giveaways from file
-    public static List<Giveaway> loadGiveaways() {
-        List<Giveaway> giveaways = new ArrayList<>();
-        try {
-            File file = new File(FILE_PATH);
-            if (file.exists()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    giveaways.addAll(Arrays.asList(gson.fromJson(reader, Giveaway[].class)));
-                }
+    public FlatFile(Giveaways plugin) {
+        this.plugin = plugin;
+        this.file = new File(plugin.getDataFolder(), "giveaways.yml");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
+
+    public List<Giveaway> loadGiveaways() {
+        List<Giveaway> giveaways = new ArrayList<>();
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        if (config.contains("giveaways")) {
+            for (String key : config.getConfigurationSection("giveaways").getKeys(false)) {
+                int id = Integer.parseInt(key);
+                ItemStack prize = config.getItemStack("giveaways." + key + ".prize");
+                Player host = plugin.getServer().getPlayer(config.getString("giveaways." + key + ".host"));
+                List<Player> participants = new ArrayList<>();
+                List<String> participantNames = config.getStringList("giveaways." + key + ".participants");
+                for (String participantName : participantNames) {
+                    Player participant = plugin.getServer().getPlayer(participantName);
+                    if (participant != null) {
+                        participants.add(participant);
+                    }
+                }
+
+                giveaways.add(new Giveaway(prize, id, host, participants));
+            }
+        }
+
         return giveaways;
     }
 
-    // Save giveaways to file
-    public static void saveGiveaways(List<Giveaway> giveaways) {
+    public void saveGiveaways(List<Giveaway> giveaways) {
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        for (Giveaway giveaway : giveaways) {
+            String key = Integer.toString(giveaway.getId());
+            config.set("giveaways." + key + ".prize", giveaway.getPrize());
+            config.set("giveaways." + key + ".host", giveaway.getHost().getName());
+            List<String> participantNames = new ArrayList<>();
+            for (Player participant : giveaway.getParticipants()) {
+                participantNames.add(participant.getName());
+            }
+            config.set("giveaways." + key + ".participants", participantNames);
+        }
+
         try {
-            File file = new File(FILE_PATH);
-            File parentDir = file.getParentFile();
-            if (!parentDir.exists() && !parentDir.mkdirs()) {
-                throw new IOException("Failed to create directories: " + parentDir.getAbsolutePath());
-            }
-            try (FileWriter writer = new FileWriter(file)) {
-                gson.toJson(giveaways, writer);
-            }
+            config.save(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Add a new giveaway
-    public static void addGiveaway(Giveaway giveaway) {
-        List<Giveaway> giveaways = loadGiveaways();
-        giveaways.add(giveaway);
-        saveGiveaways(giveaways);
-    }
-
-    public static void removeGiveaway(Giveaway giveaway) {
-        List<Giveaway> giveaways = loadGiveaways();
-        giveaways.removeIf(g -> g.getId() == giveaway.getId());
-        saveGiveaways(giveaways);
+    public void removeGiveaway(Giveaway giveawayToRemove) {
+        List<Giveaway> loadedGiveaways = loadGiveaways();
+        loadedGiveaways.removeIf(g -> g.getId() == giveawayToRemove.getId());
+        saveGiveaways(loadedGiveaways);
     }
 
 }

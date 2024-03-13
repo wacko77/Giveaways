@@ -2,6 +2,7 @@ package me.wacko.giveaways.commands;
 
 import me.wacko.giveaways.model.GiveawayManager;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,11 +44,13 @@ public class GiveawayCreation implements CommandExecutor {
                     ItemStack prize = player.getInventory().getItemInMainHand();
                     player.getInventory().remove(prize);
 
-                    if (!player.hasPermission("giveaways.duration")) {
-                        gm.createGiveaway(player, prize, 60);
-                    } else {
-                        long duration = Long.parseLong(args[1]);
-                        gm.createGiveaway(player, prize, duration);
+                    if (!prize.equals(Material.AIR)) {
+                        if (!player.hasPermission("giveaways.duration") || args.length < 2) {
+                            gm.createGiveaway(player, prize, 60);
+                        } else {
+                            long duration = Long.parseLong(args[1]);
+                            gm.createGiveaway(player, prize, duration);
+                        }
                     }
 
                     return true;

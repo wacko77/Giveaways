@@ -2,6 +2,7 @@ package me.wacko.giveaways.model;
 
 import me.wacko.giveaways.Giveaways;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
@@ -11,9 +12,7 @@ import java.util.*;
 
 import static java.lang.Long.parseLong;
 
-public class Giveaway implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class Giveaway {
     private ItemStack prize;
     private List<Player> participants = new ArrayList<>();
     private int id;
@@ -22,14 +21,18 @@ public class Giveaway implements Serializable {
     private boolean active;
     private boolean ended;
 
-    private AsyncPlayerChatEvent event;
-    private Giveaways plugin;
-
     public Giveaway(ItemStack prize, int id, Player host, long duration) {
         this.prize = prize;
         this.id = id;
         this.host = host;
         this.duration = duration;
+    }
+
+    public Giveaway(ItemStack prize, int id, Player host, List<Player> participants) {
+        this.prize = prize;
+        this.id = id;
+        this.host = host;
+        this.participants = participants;
     }
 
     public void start() {
