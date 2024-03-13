@@ -4,6 +4,8 @@ A simple text/gui based Giveaways plugin
 - MySQL support
 - Flat File support
 - Placeholder API support
+- Customizable text options in config.yml
+- Choose your storage option in config.yml
 
 ## Commands:
 - **/giveaways**
