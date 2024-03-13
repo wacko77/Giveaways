@@ -1,7 +1,7 @@
 package me.wacko.giveaways.model;
 
 import me.wacko.giveaways.Giveaways;
-import me.wacko.giveaways.util.GiveawaysStorage;
+import me.wacko.giveaways.storage.FlatFile;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +25,7 @@ public class GiveawayManager {
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> end(giveaway), duration * 20);
 
-        GiveawaysStorage.addGiveaway(giveaway);
+        FlatFile.addGiveaway(giveaway);
     }
 
     public Player chooseWinner(Giveaway giveaway) {
@@ -41,7 +41,7 @@ public class GiveawayManager {
             host.getInventory().addItem(giveaway.getPrize());
             giveaway.getHost().sendMessage("No one entered your giveaway!");
 
-            GiveawaysStorage.removeGiveaway(giveaway);
+            FlatFile.removeGiveaway(giveaway);
 
             return;
         }

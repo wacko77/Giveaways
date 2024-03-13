@@ -1,4 +1,4 @@
-package me.wacko.giveaways.util;
+package me.wacko.giveaways.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GiveawaysStorage {
+public class FlatFile {
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String FILE_PATH = "plugins/Giveaways/giveaways.json";

@@ -1,15 +1,10 @@
 package me.wacko.giveaways.model;
 
 import me.wacko.giveaways.Giveaways;
-import me.wacko.giveaways.util.GiveawaysStorage;
-import me.wacko.giveaways.util.ItemStackUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.Serializable;
 import java.util.*;

@@ -6,11 +6,10 @@ import me.wacko.giveaways.listeners.GiveawaysListener;
 import me.wacko.giveaways.model.Giveaway;
 import me.wacko.giveaways.model.GiveawayManager;
 import me.wacko.giveaways.placeholders.GiveawaysExpansion;
-import me.wacko.giveaways.util.GiveawaysStorage;
+import me.wacko.giveaways.storage.FlatFile;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Giveaways extends JavaPlugin {
@@ -23,7 +22,7 @@ public final class Giveaways extends JavaPlugin {
 
         plugin = this;
 
-        GiveawaysStorage.loadGiveaways();
+        FlatFile.loadGiveaways();
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
