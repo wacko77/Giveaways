@@ -10,5 +10,5 @@ A simple text/gui based Giveaways plugin
   - opens a gui of all active giveaways
 - **/giveaway create**
   - creates a giveaway based on what item you're holding
-- **/giveaway create <duration>**
+- **/giveaway create *<duration>***
   - creates a giveaway and sets the duration (default 60s)
