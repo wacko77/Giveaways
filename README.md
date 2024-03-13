@@ -6,6 +6,8 @@ A simple text/gui based Giveaways plugin
 - Placeholder API support
 - Customizable text options in config.yml
 - Choose your storage option in config.yml
+- Custom durations
+- Permissions work with a valid permission manager plugin such as LuckPerms
 
 ## Commands:
 - **/giveaways**
