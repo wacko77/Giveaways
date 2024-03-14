@@ -15,19 +15,16 @@ import java.util.concurrent.TimeUnit;
 
 public class GiveawaysGUI extends AbstractGUI {
 
-    private final Giveaways plugin;
-    private int slotIndex = 0;
-
     public GiveawaysGUI(Giveaways plugin) {
         super(9*6, "Current Giveaways");
-        this.plugin = plugin;
+        int slotIndex = 0;
 
         List<Giveaway> activeGiveaways = plugin.getActiveGiveaways();
 
         if (activeGiveaways != null) {
             for (Giveaway giveaway : activeGiveaways) {
-                ItemStack prize = createItem(giveaway, plugin);
-                setItem(slotIndex, prize, player -> {
+                ItemStack prize = createItem(giveaway);
+                setItem(slotIndex++, prize, player -> {
                     if (player != giveaway.getHost()) {
                         giveaway.addParticipant(player);
                         // todo: open giveawaysGUI when they click to participate in the giveaway
@@ -40,21 +37,20 @@ public class GiveawaysGUI extends AbstractGUI {
                     break;
                 }
             }
-            slotIndex++;
         } else {
             ItemStack item = ItemStackUtil.getItem(ChatColor.GREEN + "No Active Giveaways!", Material.BEDROCK, 1, Collections.singletonList(ChatColor.GRAY + "Type /giveaway create to make a giveaway!"));
             setItem(1, item);
         }
     }
 
-    private ItemStack createItem(Giveaway giveaway, Giveaways plugin){
-        List<String> lore = getLore(giveaway, plugin);
+    private ItemStack createItem(Giveaway giveaway){
+        List<String> lore = getLore(giveaway);
         ItemStack prize = ItemStackUtil.getItem(giveaway.getPrize().getType().toString(), giveaway.getPrize().getType(), 1, lore);
 
         return prize;
     }
 
-    private static List<String> getLore(Giveaway giveaway, Giveaways plugin){
+    private static List<String> getLore(Giveaway giveaway){
         List<String> lore = new ArrayList<>();
 
         List<Player> participants = giveaway.getParticipants();

@@ -52,7 +52,7 @@ public class GiveawayManager {
         if(giveaway.getParticipants().isEmpty()) {
             Player host = giveaway.getHost();
             host.getInventory().addItem(giveaway.getPrize());
-            giveaway.getHost().sendMessage("No one entered your giveaway!");
+            giveaway.getHost().sendMessage(String.format("%s%sNo one entered your giveaway!", ChatColor.AQUA,  ChatColor.BOLD));
 
             giveaway.end();
             file.removeGiveaway(giveaway);

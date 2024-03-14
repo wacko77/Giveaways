@@ -16,7 +16,7 @@ import java.util.List;
 public final class Giveaways extends JavaPlugin {
 
     private FlatFile file;
-    private List<Giveaway> activeGiveaways = new ArrayList<>();
+    private final List<Giveaway> activeGiveaways = new ArrayList<>();
     GiveawayManager gm = new GiveawayManager(this, activeGiveaways);
 
     @Override
@@ -24,7 +24,7 @@ public final class Giveaways extends JavaPlugin {
 
         file = new FlatFile(this);
 
-        activeGiveaways = file.loadGiveaways();
+        file.loadGiveaways();
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
