@@ -4,7 +4,7 @@ A simple text/gui based Giveaways plugin
 - MySQL support
 - Flat File support
 - Placeholder API support
-- Customizable text options in config.yml
+- Customizable text options in messages.yml
 - Choose your storage option in config.yml
 - Custom durations
 - Permissions work with a valid permission manager plugin such as LuckPerms
