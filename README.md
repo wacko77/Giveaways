@@ -1,5 +1,7 @@
 A simple text/gui based Giveaways plugin
 
+**Note:** This plugin is in early development so some features may not yet be available.
+
 ## Features:
 - MySQL support
 - Flat File support
@@ -16,6 +18,8 @@ A simple text/gui based Giveaways plugin
   - creates a giveaway based on what item you're holding
 - **/giveaway create (duration)**
   - creates a giveaway and sets the duration (min 60s, max 1d)
+- **/giveaway forcestop**
+  - forcestops the current giveaway
 
 ## Admin Commands:
 - **/giveaways removeall**
@@ -24,3 +28,23 @@ A simple text/gui based Giveaways plugin
   - removes a specific giveaway
 - **/giveaway create (duration)**
   - allows an admin to set a duration with no max
+
+## Permissions:
+- **giveaways.command**
+  - allows the opening of the giveaway gui
+- **giveaways.start**
+  - allows a player to start a giveaway
+- **giveaways.duration**
+  - allows a duration to be set
+- **giveaways.admin**
+  - adds all admin commands
+- **giveaways.***
+  - children: giveaways.command, giveaways.start, giveaways.duration
+
+## Placeholders
+- **%giveaways.participants%**
+  - returns the participants for the specific giveaway
+- **%giveaways.host%**
+  - returns the host for the specific giveaway
+- **%giveaways.duration%**
+  - returns the remaining time of the specific giveaway
