@@ -9,9 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class GiveawaysGUI extends AbstractGUI {
 
@@ -23,7 +21,7 @@ public class GiveawaysGUI extends AbstractGUI {
 
         if (activeGiveaways != null) {
             for (Giveaway giveaway : activeGiveaways) {
-                ItemStack prize = createItem(giveaway);
+                ItemStack prize = createItem(giveaway, plugin);
                 setItem(slotIndex++, prize, player -> {
                     if (player != giveaway.getHost()) {
                         giveaway.addParticipant(player);
@@ -43,26 +41,44 @@ public class GiveawaysGUI extends AbstractGUI {
         }
     }
 
-    private ItemStack createItem(Giveaway giveaway){
-        List<String> lore = getLore(giveaway);
-        ItemStack prize = ItemStackUtil.getItem(giveaway.getPrize().getType().toString(), giveaway.getPrize().getType(), 1, lore);
+    private ItemStack createItem(Giveaway giveaway, Giveaways plugin){
+        List<String> lore = getLore(giveaway, plugin);
+        ItemStack prize = ItemStackUtil.getItem(giveaway.getPrize().getType() + " "  + "x" + giveaway.getPrize().getAmount(), giveaway.getPrize().getType(), 1, lore);
 
         return prize;
     }
 
-    private static List<String> getLore(Giveaway giveaway){
+    private static List<String> getLore(Giveaway giveaway, Giveaways plugin){
         List<String> lore = new ArrayList<>();
 
         List<Player> participants = giveaway.getParticipants();
+        long duration = giveaway.getDuration();
+        Player host = giveaway.getHost();
 
-        if (!(participants == null)) {
-            lore.add("# of participants: " + participants.size());
+        lore.add("");
+        lore.add(ChatColor.GOLD + "Host: " + ChatColor.GRAY + host.getName());
+        lore.add("");
+
+        if (participants != null) {
+            lore.add(ChatColor.GOLD + "Participants in Giveaway: "  + ChatColor.GRAY + participants.size());
         } else {
-            lore.add("# of participants: 0");
+            lore.add(ChatColor.GOLD + "Participants in Giveaway: 0");
         }
 
-        //long duration = giveaway.getDuration();
-        //Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> lore.add("Ends in: " + duration), 0L, 20L);
+        lore.add("");
+        lore.add(ChatColor.GOLD + "Ends in: "  + ChatColor.GRAY +  duration + "s");
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                    if (onlinePlayer.getOpenInventory().getTitle().equals("Current Giveaways")) {
+                        lore.set(2, ChatColor.GOLD + "Ends in: "  + ChatColor.GRAY +  duration + "s");
+                    }
+                }
+
+            }
+        }.runTaskTimer(plugin, 0, 20);
 
         return lore;
     }

@@ -2,6 +2,7 @@ package me.wacko.giveaways.model;
 
 import me.wacko.giveaways.Giveaways;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -39,7 +40,7 @@ public class Giveaway {
 
         if(isActive()) return;
         if(isEnded()) return;
-        if(participants.isEmpty()) return;
+        if(!participants.isEmpty()) return;
 
         active = true;
 

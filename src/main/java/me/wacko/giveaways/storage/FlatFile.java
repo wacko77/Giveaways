@@ -73,9 +73,17 @@ public class FlatFile {
     }
 
     public void removeGiveaway(Giveaway giveawayToRemove) {
-        List<Giveaway> loadedGiveaways = loadGiveaways();
-        loadedGiveaways.removeIf(g -> g.getId() == giveawayToRemove.getId());
-        saveGiveaways(loadedGiveaways);
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        // Remove entries associated with the giveaway to remove
+        String key = Integer.toString(giveawayToRemove.getId());
+        config.set("giveaways." + key, null);
+
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

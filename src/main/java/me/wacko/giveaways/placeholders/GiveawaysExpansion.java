@@ -32,7 +32,7 @@ public class GiveawaysExpansion extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, @NotNull String params) {
 
         /*if (params.equalsIgnoreCase("participants")) {
-            return GiveawaysCommand.confirmParticipation();
+            return
         }*/
 
         return params;

@@ -42,24 +42,34 @@ public class GiveawayCreation implements CommandExecutor {
                     }
 
                     ItemStack prize = player.getInventory().getItemInMainHand();
-                    player.getInventory().remove(prize);
+                    player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
 
-                    if (!prize.equals(Material.AIR)) {
+                    if (!isAir(prize)) {
                         if (!player.hasPermission("giveaways.duration") || args.length < 2) {
                             gm.createGiveaway(player, prize, 60);
                         } else {
                             long duration = Long.parseLong(args[1]);
                             gm.createGiveaway(player, prize, duration);
                         }
+                    } else {
+                        player.sendMessage(String.format("%s%sCannot create giveaway with item type air!", ChatColor.DARK_RED,  ChatColor.BOLD));
                     }
 
                     return true;
                 } else return false;
+
+                // todo: if (args[0].equalsIgnoreCase("stop")) {
+                    // gm.forceStop(giveaway);
+                //}
             }
         } else {
             player.sendMessage(String.format("%s%sYou do not have permission to do that!", ChatColor.DARK_RED,  ChatColor.BOLD));
         }
 
         return true;
+    }
+
+    private boolean isAir(ItemStack itemStack) {
+        return itemStack.getType() == Material.AIR;
     }
 }
