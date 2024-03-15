@@ -3,6 +3,7 @@ A simple text/gui based Giveaways plugin
 **Note:** This plugin is in early development so some features may not yet be available.
 
 ## Features:
+- Create unique and fun giveaways
 - MySQL support
 - Flat File support
 - Placeholder API support
