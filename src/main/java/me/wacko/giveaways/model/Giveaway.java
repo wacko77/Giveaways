@@ -7,6 +7,8 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.Serializable;
 import java.util.*;
@@ -20,7 +22,7 @@ public class Giveaway {
     private Player host;
     private long duration;
     private boolean active;
-    private boolean ended;
+    private BukkitTask runnable;
 
     public Giveaway(ItemStack prize, int id, Player host, long duration) {
         this.prize = prize;
@@ -38,20 +40,14 @@ public class Giveaway {
 
     public void start() {
 
-        if(isActive()) return;
-        if(isEnded()) return;
-        if(!participants.isEmpty()) return;
-
         active = true;
 
         Bukkit.broadcastMessage("Giveaway #" + id + " has started! Prize: " + prize.getType().toString());
     }
 
     public void end(){
-        if (!isActive() || isEnded()) return;
 
         active = false;
-        ended = true;
 
         Bukkit.broadcastMessage("Giveaway #" + id + " has ended!");
     }
@@ -69,11 +65,12 @@ public class Giveaway {
     public Player getHost() {return host;}
     public List<Player> getParticipants() {return participants;}
     public boolean isActive() {return active;}
-    public boolean isEnded() {return ended;}
     public long getDuration() {return duration;}
     public void setDuration(long duration) {
         this.duration = duration;
     }
+    public BukkitTask getRunnable() {return runnable;}
+    public void setRunnable(BukkitTask runnable) {this.runnable = runnable;}
 
 }
 

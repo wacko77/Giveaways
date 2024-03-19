@@ -1,6 +1,7 @@
 package me.wacko.giveaways.gui;
 
 import me.wacko.giveaways.Giveaways;
+import me.wacko.giveaways.manager.GiveawayManager;
 import me.wacko.giveaways.model.Giveaway;
 import me.wacko.giveaways.util.ItemStackUtil;
 import org.bukkit.Bukkit;
@@ -13,11 +14,19 @@ import java.util.*;
 
 public class GiveawaysGUI extends AbstractGUI {
 
-    public GiveawaysGUI(Giveaways plugin) {
+    public GiveawaysGUI(Giveaways plugin, GiveawayManager gm) {
         super(9*6, "Current Giveaways");
-        int slotIndex = 0;
+        int slotIndex = 9;
 
-        List<Giveaway> activeGiveaways = plugin.getActiveGiveaways();
+        List<Giveaway> activeGiveaways = gm.getActiveGiveaways();
+
+        for (int i = 0; i < 9; i++) {
+            setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+        }
+
+        for (int i = 45; i < 54; i++) {
+            setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+        }
 
         if (activeGiveaways != null) {
             for (Giveaway giveaway : activeGiveaways) {
@@ -31,7 +40,7 @@ public class GiveawaysGUI extends AbstractGUI {
                     }
                 });
 
-                if (slotIndex >= getInventory().getSize()) {
+                if (slotIndex >= 45) {
                     break;
                 }
             }
