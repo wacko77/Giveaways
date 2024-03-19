@@ -2,13 +2,14 @@ name: Giveaways
 version: '${project.version}'
 main: me.wacko.giveaways.Giveaways
 api-version: '1.20'
-depend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI]
 
 commands:
   giveaways:
-    description: opens a gui of the current giveaways
+    description: opens a gui of all active giveaways
   giveaway:
     description: set of subcommands for giveaway creation
+    usage: /<command> [create|create <duration>|forcestop]
 
 permissions:
   giveaways.command:

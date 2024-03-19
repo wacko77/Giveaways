@@ -1,4 +1,4 @@
-package me.wacko.giveaways.storage;
+package me.wacko.giveaways.util;
 
 import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.model.Giveaway;
