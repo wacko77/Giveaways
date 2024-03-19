@@ -1,6 +1,6 @@
 package me.wacko.giveaways.commands;
 
-import me.wacko.giveaways.manager.GiveawayManager;
+import me.wacko.giveaways.model.GiveawayManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -52,15 +52,15 @@ public class GiveawayCreation implements CommandExecutor {
                             gm.createGiveaway(player, prize, duration);
                         }
                     } else {
-                        player.sendMessage(String.format("%s%sPlease hold the item you want to giveaway in your main hand.", ChatColor.DARK_RED,  ChatColor.BOLD));
+                        player.sendMessage(String.format("%s%sCannot create giveaway with item type air!", ChatColor.DARK_RED,  ChatColor.BOLD));
                     }
 
                     return true;
-                }
+                } else return false;
 
-                if (args[0].equalsIgnoreCase("forcestop")) {
-                    gm.forceStopGiveaway(player);
-                }
+                // todo: if (args[0].equalsIgnoreCase("stop")) {
+                    // gm.forceStop(giveaway);
+                //}
             }
         } else {
             player.sendMessage(String.format("%s%sYou do not have permission to do that!", ChatColor.DARK_RED,  ChatColor.BOLD));
