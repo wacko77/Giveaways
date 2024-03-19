@@ -2,6 +2,8 @@ A simple text/gui based Giveaways plugin
 
 **Note:** This plugin is in early development so some features may not yet be available.
 
+![Screenshot (50)](https://github.com/wacko77/Giveaways/assets/46010708/b6b6a0f4-0474-4bd0-b015-1ff6c4914647)
+
 ## Features:
 - Create unique and fun giveaways
 - MySQL support
