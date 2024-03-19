@@ -12,7 +12,7 @@ import java.util.*;
 
 public class GiveawayManager {
     private final Giveaways plugin;
-    private final FlatFile file;
+    private FlatFile file;
     private int nextId = 1;
     private final List<Giveaway> activeGiveaways;
     private final Map<Integer, Giveaway> giveaways;
