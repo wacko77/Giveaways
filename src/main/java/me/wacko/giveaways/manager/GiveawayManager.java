@@ -3,6 +3,7 @@ package me.wacko.giveaways.manager;
 import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.model.Giveaway;
 import me.wacko.giveaways.util.FlatFile;
+import me.wacko.giveaways.util.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class GiveawayManager {
-    private final Giveaways plugin;
+    private Giveaways plugin;
     private FlatFile file;
     private int nextId = 1;
     private final List<Giveaway> activeGiveaways;
@@ -33,7 +34,7 @@ public class GiveawayManager {
             return;
         }
 
-        Giveaway giveaway = new Giveaway(prize, nextId++, host, duration);
+        Giveaway giveaway = new Giveaway(prize, nextId++, host, duration, plugin);
 
         giveaways.put(nextId, giveaway);
 
@@ -126,5 +127,4 @@ public class GiveawayManager {
     public List<Giveaway> getActiveGiveaways() {
         return activeGiveaways;
     }
-
 }

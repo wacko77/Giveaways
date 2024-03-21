@@ -1,6 +1,7 @@
 package me.wacko.giveaways.model;
 
 import me.wacko.giveaways.Giveaways;
+import me.wacko.giveaways.util.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -16,6 +17,7 @@ import java.util.*;
 import static java.lang.Long.parseLong;
 
 public class Giveaway {
+    private Giveaways plugin;
     private ItemStack prize;
     private List<Player> participants = new ArrayList<>();
     private int id;
@@ -24,25 +26,27 @@ public class Giveaway {
     private boolean active;
     private BukkitTask runnable;
 
-    public Giveaway(ItemStack prize, int id, Player host, long duration) {
+    public Giveaway(ItemStack prize, int id, Player host, long duration, Giveaways plugin) {
         this.prize = prize;
         this.id = id;
         this.host = host;
         this.duration = duration;
+        this.plugin = plugin;
     }
 
-    public Giveaway(ItemStack prize, int id, Player host, List<Player> participants) {
+    public Giveaway(ItemStack prize, int id, Player host, List<Player> participants, Giveaways plugin) {
         this.prize = prize;
         this.id = id;
         this.host = host;
         this.participants = participants;
+        this.plugin = plugin;
     }
 
     public void start() {
 
         active = true;
 
-        Bukkit.broadcastMessage("Giveaway #" + id + " has started! Prize: " + prize.getType().toString());
+        //messages.sendStartBroadcastMessage();
     }
 
     public void end(){

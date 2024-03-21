@@ -1,1 +1,24 @@
+## Giveaway lore details (displayed in gui)
+first-line: ""
+
+second-line: ""
+
+third-line: ""
+
+fourth-line: ""
+
+## Giveaway start messages
 giveaway-start-broadcast: ""
+
+## Giveaway end messages
+giveaway-end-broadcast: ""
+
+giveaway-win: ""
+
+giveaway-end-no-participants: ""
+
+giveaway-stop: ""
+
+## No permission
+no-permission: ""
+

@@ -44,7 +44,7 @@ public class GiveawaysGUI extends AbstractGUI {
                     break;
                 }
             }
-        } else {
+        } else if (activeGiveaways.isEmpty()) {
             ItemStack item = ItemStackUtil.getItem(ChatColor.GREEN + "No Active Giveaways!", Material.BEDROCK, 1, Collections.singletonList(ChatColor.GRAY + "Type /giveaway create to make a giveaway!"));
             setItem(1, item);
         }

@@ -10,17 +10,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+
 public class GiveawayCreation implements CommandExecutor {
 
     private final GiveawayManager gm;
 
-    public GiveawayCreation(GiveawayManager gm) {
-        this.gm = gm;
-    }
+    public GiveawayCreation(GiveawayManager gm) {this.gm = gm;}
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if(!(sender instanceof Player)){
+        if (!(sender instanceof Player)) {
             sender.sendMessage("This can only be ran by players!");
             return true;
         }
@@ -36,7 +35,7 @@ public class GiveawayCreation implements CommandExecutor {
             if (args.length >= 1) {
                 if (args[0].equalsIgnoreCase("create")) {
 
-                    if(!player.hasPermission("giveaways.duration") && args.length >= 2) {
+                    if (!player.hasPermission("giveaways.duration") && args.length >= 2) {
                         player.sendMessage(String.format("%sYou cannot set a duration for your giveaway!\nIf you want to do so, please purchase a rank from our shop that gives you that freedom!", ChatColor.GREEN));
                         return false;
                     }
@@ -52,7 +51,7 @@ public class GiveawayCreation implements CommandExecutor {
                             gm.createGiveaway(player, prize, duration);
                         }
                     } else {
-                        player.sendMessage(String.format("%s%sPlease hold the item you want to giveaway in your main hand.", ChatColor.DARK_RED,  ChatColor.BOLD));
+                        player.sendMessage(String.format("%s%sPlease hold the item you want to giveaway in your main hand.", ChatColor.DARK_RED, ChatColor.BOLD));
                     }
 
                     return true;
@@ -63,7 +62,7 @@ public class GiveawayCreation implements CommandExecutor {
                 }
             }
         } else {
-            player.sendMessage(String.format("%s%sYou do not have permission to do that!", ChatColor.DARK_RED,  ChatColor.BOLD));
+            player.sendMessage(String.format("%s%sYou do not have permission to do that!", ChatColor.DARK_RED, ChatColor.BOLD));
         }
 
         return true;

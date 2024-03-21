@@ -21,7 +21,7 @@ public class FlatFile {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("[Giveaways] Couldn't create giveaways.yml file !! \n[Giveaways] Try creating a giveaway in game first and the file will load up.");
             }
         }
     }
@@ -44,7 +44,7 @@ public class FlatFile {
                     }
                 }
 
-                giveaways.add(new Giveaway(prize, id, host, participants));
+                giveaways.add(new Giveaway(prize, id, host, participants, plugin));
             }
         }
 
