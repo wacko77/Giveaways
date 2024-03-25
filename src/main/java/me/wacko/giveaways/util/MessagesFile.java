@@ -11,7 +11,7 @@ public class MessagesFile {
 
     private FileConfiguration messagesConfig;
     private File messagesFile;
-    private Giveaways plugin;
+    private final Giveaways plugin;
 
     public MessagesFile(Giveaways plugin) {
         this.plugin = plugin;

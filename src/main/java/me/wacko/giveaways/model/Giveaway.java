@@ -2,6 +2,7 @@ package me.wacko.giveaways.model;
 
 import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.util.Messages;
+import me.wacko.giveaways.util.MessagesFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -46,14 +47,16 @@ public class Giveaway {
 
         active = true;
 
-        //messages.sendStartBroadcastMessage();
+        Messages messages = new Messages(plugin);
+        messages.sendStartBroadcastMessage();
     }
 
     public void end(){
 
         active = false;
 
-        Bukkit.broadcastMessage("Giveaway #" + id + " has ended!");
+        Messages messages = new Messages(plugin);
+        messages.sendEndBroadcastMessage();
     }
 
     public void addParticipant(Player player) {

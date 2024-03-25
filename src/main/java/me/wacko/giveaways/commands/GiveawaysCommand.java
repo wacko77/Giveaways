@@ -4,31 +4,34 @@ import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.gui.GiveawaysGUI;
 import me.wacko.giveaways.manager.GiveawayManager;
 import me.wacko.giveaways.util.FlatFile;
+import me.wacko.giveaways.util.Messages;
 import me.wacko.giveaways.util.MessagesFile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class GiveawaysCommand implements CommandExecutor {
     private final Giveaways plugin;
-    private GiveawayManager gm;
-    private MessagesFile messagesFile;
+    private final GiveawayManager gm;
+    private final MessagesFile messagesFile;
 
-    public GiveawaysCommand(Giveaways plugin, GiveawayManager gm, MessagesFile messagesFile) {
+    public GiveawaysCommand(Giveaways plugin, GiveawayManager gm) {
         this.plugin = plugin;
         this.gm = gm;
-        this.messagesFile = messagesFile;
+        this.messagesFile = plugin.getMessagesFile();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player) && !(sender instanceof ConsoleCommandSender)) {
             sender.sendMessage("Command can only be run by players!");
         }
 
+        Messages message = new Messages(plugin);
         Player player = (Player) sender;
 
         if (args.length == 0) {
@@ -36,13 +39,13 @@ public class GiveawaysCommand implements CommandExecutor {
                 GiveawaysGUI giveawaysGUI = new GiveawaysGUI(plugin, gm);
                 giveawaysGUI.open(player);
             } else {
-                player.sendMessage(String.format("%s%sYou do not have permission to do that!", ChatColor.DARK_RED, ChatColor.BOLD));
+                message.sendNoPermission(player);
             }
             return true;
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
-            if (player.hasPermission("giveaways.admin")) {
+            if (player.hasPermission("giveaways.admin") || sender instanceof ConsoleCommandSender) {
                 messagesFile.reloadMessagesConfig();
                 plugin.reloadConfig();
 

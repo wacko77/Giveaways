@@ -4,28 +4,34 @@ import me.wacko.giveaways.Giveaways;
 import me.wacko.giveaways.manager.GiveawayManager;
 import me.wacko.giveaways.model.Giveaway;
 import me.wacko.giveaways.util.ItemStackUtil;
+import me.wacko.giveaways.util.Messages;
+import me.wacko.giveaways.util.MessagesFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.StringUtil;
+
 import java.util.*;
 
 public class GiveawaysGUI extends AbstractGUI {
 
     public GiveawaysGUI(Giveaways plugin, GiveawayManager gm) {
-        super(9*6, "Current Giveaways");
+        super(9*6, "        ᴄᴜʀʀᴇɴᴛ ɢɪᴠᴇᴀᴡᴀʏs");
         int slotIndex = 9;
 
         List<Giveaway> activeGiveaways = gm.getActiveGiveaways();
 
+        ItemStack blackPane = ItemStackUtil.getItem(" ", Material.BLACK_STAINED_GLASS_PANE, 1, Collections.singletonList(" "));
+
         for (int i = 0; i < 9; i++) {
-            setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+            setItem(i, blackPane);
         }
 
         for (int i = 45; i < 54; i++) {
-            setItem(i, new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+            setItem(i, blackPane);
         }
 
         if (activeGiveaways != null) {
@@ -65,7 +71,7 @@ public class GiveawaysGUI extends AbstractGUI {
         Player host = giveaway.getHost();
 
         lore.add("");
-        lore.add(ChatColor.GOLD + "Host: " + ChatColor.GRAY + host.getName());
+        lore.add(ChatColor.GOLD + "Host: " + host.getName());
         lore.add("");
 
         if (participants != null) {

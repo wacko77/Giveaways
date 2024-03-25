@@ -12,8 +12,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class GiveawayManager {
-    private Giveaways plugin;
-    private FlatFile file;
+    private final Giveaways plugin;
+    private final FlatFile file;
     private int nextId = 1;
     private final List<Giveaway> activeGiveaways;
     private final Map<Integer, Giveaway> giveaways;
@@ -85,9 +85,10 @@ public class GiveawayManager {
 
     private void end(Giveaway giveaway) {
         if(giveaway.getParticipants().isEmpty()) {
+            Messages message = new Messages(plugin);
             Player host = giveaway.getHost();
             host.getInventory().addItem(giveaway.getPrize());
-            host.sendMessage(String.format("%s%sNo one entered your giveaway!", ChatColor.AQUA,  ChatColor.BOLD));
+            host.sendMessage(message.sendGiveawayEndNoParticipants(host));
 
             stopGiveaway(giveaway);
 
@@ -95,7 +96,8 @@ public class GiveawayManager {
         }
         Player winner = chooseWinner(giveaway);
         if(winner != null){
-            winner.sendMessage("You have won a giveaway containing: " + giveaway.getPrize().getType());
+            Messages message = new Messages(plugin);
+            winner.sendMessage(message.sendGiveawayWin(winner));
             winner.getInventory().addItem(giveaway.getPrize());
             stopGiveaway(giveaway);
         }
@@ -103,14 +105,11 @@ public class GiveawayManager {
 
     public void forceStopGiveaway(Player player) {
         for (Map.Entry<Integer, Giveaway> entry : giveaways.entrySet()) {
-            int id = entry.getKey();
             Giveaway giveaway = entry.getValue();
 
             if (player.getUniqueId() == giveaway.getHost().getUniqueId() && hostsWithActiveGiveaways.contains(player)) {
                 stopGiveaway(giveaway);
                 giveaway.getHost().getInventory().addItem(giveaway.getPrize());
-
-                player.sendMessage("Successfully stopped giveaway");
             }
         }
     }

@@ -1,11 +1,4 @@
-## Giveaway lore details (displayed in gui)
-first-line: ""
-
-second-line: ""
-
-third-line: ""
-
-fourth-line: ""
+## '&' color codes are supported
 
 ## Giveaway start messages
 giveaway-start-broadcast: ""
@@ -17,8 +10,10 @@ giveaway-win: ""
 
 giveaway-end-no-participants: ""
 
-giveaway-stop: ""
-
 ## No permission
-no-permission: ""
+no-permission-general: ""
+
+no-permission-duration: ""
+
+no-item-in-hand-on-giveaway-create: ""
 
